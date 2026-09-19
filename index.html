@@ -496,10 +496,13 @@ footer .mark i{width:6px;height:6px;border-radius:50%;background:linear-gradient
     document.querySelectorAll("[data-ru]").forEach(function(el){
       var val = el.getAttribute("data-" + (next === "kk" ? "kk" : "ru"));
       if (!val) return;
-      if (!animate) { el.textContent = val; return; }
-      el.style.transition = "opacity .16s ease";
-      el.style.opacity = "0";
-      setTimeout(function(){ el.textContent = val; el.style.opacity = "1"; }, 160);
+      // Set the text first, then fade it in. Never hide text behind a timer:
+      // throttled/suspended timers would leave the label permanently blank.
+      el.textContent = val;
+      if (animate && !reduce && el.animate) {
+        try { el.animate([{ opacity: 0 }, { opacity: 1 }],
+                         { duration: 240, easing: "cubic-bezier(.22,1,.36,1)" }); } catch(e){}
+      }
     });
     segButtons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.lang === next)); });
     movePill();
