@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://freshfruit-atyrau.vercel.app/sitemap.xml
+Sitemap: https://elapen.github.io/freshfruit-atyrau/sitemap.xml
